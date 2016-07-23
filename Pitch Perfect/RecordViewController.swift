@@ -62,15 +62,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         
         return false
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-    /**
-     Handles the pressing of the record button
-     */
+    /// Handles the pressing of the record button
     @IBAction func buttonPress(sender: AnyObject) {
         if audioRecorder == nil {
             startRecording()
