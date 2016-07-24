@@ -26,6 +26,7 @@ class PlayViewController: UIViewController {
 
     /// These are the sound modulators. They will populate the collectionview.
     var modulators: [Modulator] = [
+        Normal(),
         Slow(),
         Fast(),
         Chipmunk(),

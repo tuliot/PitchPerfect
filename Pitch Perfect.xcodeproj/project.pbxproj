@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		59D8C9DE1D444BC800E8547C /* Normal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D8C9DD1D444BC800E8547C /* Normal.swift */; };
 		D7458C341D31A19B004F3CD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C331D31A19B004F3CD5 /* AppDelegate.swift */; };
 		D7458C361D31A19B004F3CD5 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C351D31A19B004F3CD5 /* RecordViewController.swift */; };
 		D7458C391D31A19B004F3CD5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7458C371D31A19B004F3CD5 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		59D8C9DD1D444BC800E8547C /* Normal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Normal.swift; path = Modulator/Normal.swift; sourceTree = "<group>"; };
 		D7458C301D31A19B004F3CD5 /* Pitch Perfect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pitch Perfect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7458C331D31A19B004F3CD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7458C351D31A19B004F3CD5 /* RecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
@@ -156,6 +158,7 @@
 				D7458C721D31D79B004F3CD5 /* Vader.swift */,
 				D7458C741D31D7B3004F3CD5 /* Echo.swift */,
 				D7458C761D31D7D7004F3CD5 /* Reverb.swift */,
+				59D8C9DD1D444BC800E8547C /* Normal.swift */,
 			);
 			name = Modulators;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59D8C9DE1D444BC800E8547C /* Normal.swift in Sources */,
 				D7458C711D31D76E004F3CD5 /* Chipmunk.swift in Sources */,
 				D7458C6F1D31D732004F3CD5 /* Fast.swift in Sources */,
 				D7458C6C1D31CF3F004F3CD5 /* ModulatorCollectionViewCell.swift in Sources */,
@@ -529,6 +533,7 @@
 				D7458C5A1D31A19B004F3CD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D7458C5B1D31A19B004F3CD5 /* Build configuration list for PBXNativeTarget "Pitch PerfectTests" */ = {
 			isa = XCConfigurationList;
@@ -537,6 +542,7 @@
 				D7458C5D1D31A19B004F3CD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D7458C5E1D31A19B004F3CD5 /* Build configuration list for PBXNativeTarget "Pitch PerfectUITests" */ = {
 			isa = XCConfigurationList;
@@ -545,6 +551,7 @@
 				D7458C601D31A19B004F3CD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
