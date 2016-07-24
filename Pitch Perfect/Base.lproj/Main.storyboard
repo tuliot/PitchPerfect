@@ -106,18 +106,11 @@
                                     <outlet property="delegate" destination="MHp-q4-NU6" id="zHN-lo-wVb"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahe-u6-FPU">
-                                <rect key="frame" x="180" y="395" width="240" height="30"/>
-                                <state key="normal" title="Normal"/>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="tMz-0Y-VBh" firstAttribute="top" secondItem="VrF-qO-xib" secondAttribute="bottom" constant="11" id="AMy-vq-Zjq"/>
-                            <constraint firstItem="ahe-u6-FPU" firstAttribute="top" secondItem="tMz-0Y-VBh" secondAttribute="bottom" constant="20" id="Rfi-0k-pfg"/>
                             <constraint firstItem="tMz-0Y-VBh" firstAttribute="width" secondItem="IZ8-2D-807" secondAttribute="width" multiplier="4/5" id="UKz-UZ-nqN"/>
-                            <constraint firstItem="ahe-u6-FPU" firstAttribute="centerX" secondItem="IZ8-2D-807" secondAttribute="centerX" id="XgV-XQ-LBc"/>
-                            <constraint firstItem="ahe-u6-FPU" firstAttribute="width" secondItem="tMz-0Y-VBh" secondAttribute="width" multiplier="1/2" id="pZh-4m-zLU"/>
                             <constraint firstItem="tMz-0Y-VBh" firstAttribute="centerX" secondItem="IZ8-2D-807" secondAttribute="centerX" id="zka-GY-Z5x"/>
                         </constraints>
                     </view>
