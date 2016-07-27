@@ -94,6 +94,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		59D8C9DF1D44FF0700E8547C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		D7458C271D31A19B004F3CD5 = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +124,7 @@
 		D7458C321D31A19B004F3CD5 /* Pitch Perfect */ = {
 			isa = PBXGroup;
 			children = (
+				59D8C9DF1D44FF0700E8547C /* Views */,
 				D7458C331D31A19B004F3CD5 /* AppDelegate.swift */,
 				D7458C631D31BDBF004F3CD5 /* Modulators */,
 				D7458C351D31A19B004F3CD5 /* RecordViewController.swift */,
