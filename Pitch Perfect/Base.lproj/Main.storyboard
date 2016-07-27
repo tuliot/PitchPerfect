@@ -100,6 +100,27 @@
                                             <outlet property="nameLabel" destination="A0W-RJ-5Bn" id="LJz-PP-yd2"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="addModulatorCell" id="LNt-Fp-Anb">
+                                        <rect key="frame" x="190" y="64" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Lt-N4-63n" userLabel="label">
+                                                    <rect key="frame" x="45" y="40" width="11" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstItem="1Lt-N4-63n" firstAttribute="centerX" secondItem="LNt-Fp-Anb" secondAttribute="centerX" id="C8C-Ku-E0R"/>
+                                            <constraint firstItem="1Lt-N4-63n" firstAttribute="centerY" secondItem="LNt-Fp-Anb" secondAttribute="centerY" id="Upx-vd-EcO"/>
+                                        </constraints>
+                                    </collectionViewCell>
                                 </cells>
                                 <variation key="default">
                                     <mask key="constraints">
