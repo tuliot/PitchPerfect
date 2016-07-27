@@ -32,11 +32,16 @@ class PlayViewController: UIViewController {
         Chipmunk(),
         Vader(),
         Echo(),
-        Reverb()
+        Reverb(),
+        
     ]
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
+    /// The reuse id of the addmodulator cell
+    var kAddModulatorCellReuseId = "addModulatorCell"
+
+    /// The reuse id of the modulator cell
     var kModulatorCellReuseId = "modulatorCell"
     
     override func viewDidLoad() {
@@ -181,10 +186,15 @@ class PlayViewController: UIViewController {
 extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return modulators.count
+        return modulators.count + 1 // The +1 accounts for the 'add modulator' cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        if (indexPath.item == modulators.count) {
+            return
+        }
+
         let modulator = modulators[indexPath.item]
 
         // Only play the sound if there isnt a sound playing right now.
@@ -194,15 +204,28 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kModulatorCellReuseId, forIndexPath: indexPath) as! ModulatorCollectionViewCell
-        let modulator = modulators[indexPath.item]
+
+        if (indexPath.item == modulators.count) {
+            // This cell is the addModulator cell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kAddModulatorCellReuseId, forIndexPath: indexPath)
+
+            cell.layer.borderWidth = 1.5
+            cell.layer.borderColor = UIColor.blackColor().CGColor
+            cell.layer.cornerRadius = cell.bounds.height / 2
+            return cell;
+
+        } else {
+            // This cell is a modulator cell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kModulatorCellReuseId, forIndexPath: indexPath) as! ModulatorCollectionViewCell
+            let modulator = modulators[indexPath.item]
+            cell.nameLabel.text = modulator.name
+
+            cell.layer.borderWidth = 1.5
+            cell.layer.borderColor = UIColor.blackColor().CGColor
+            cell.layer.cornerRadius = cell.bounds.height / 2
+            return cell;
+        }
         
-        cell.layer.borderWidth = 1.5
-        cell.layer.borderColor = UIColor.blackColor().CGColor
-        cell.layer.cornerRadius = cell.bounds.height / 2
-        
-        cell.nameLabel.text = modulator.name
-        return cell
     }
     
 }
