@@ -64,12 +64,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="tMz-0Y-VBh">
-                                <rect key="frame" x="60" y="75" width="480" height="300"/>
+                                <rect key="frame" x="60" y="64" width="480" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="H1D-uk-zI6"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="40" minimumInteritemSpacing="40" id="yE9-Bq-r5R">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="40" minimumInteritemSpacing="40" id="yE9-Bq-r5R">
                                     <size key="itemSize" width="100" height="100"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -77,7 +77,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="modulatorCell" id="ri0-0q-hXs" customClass="ModulatorCollectionViewCell" customModule="Pitch_Perfect" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="132" width="100" height="100"/>
+                                        <rect key="frame" x="0.0" y="64" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
@@ -101,6 +101,11 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="H1D-uk-zI6"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outlet property="dataSource" destination="MHp-q4-NU6" id="I8q-nX-6dc"/>
                                     <outlet property="delegate" destination="MHp-q4-NU6" id="zHN-lo-wVb"/>
@@ -109,8 +114,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="tMz-0Y-VBh" firstAttribute="top" secondItem="VrF-qO-xib" secondAttribute="bottom" constant="11" id="AMy-vq-Zjq"/>
+                            <constraint firstItem="tMz-0Y-VBh" firstAttribute="top" secondItem="VrF-qO-xib" secondAttribute="bottom" id="AMy-vq-Zjq"/>
                             <constraint firstItem="tMz-0Y-VBh" firstAttribute="width" secondItem="IZ8-2D-807" secondAttribute="width" multiplier="4/5" id="UKz-UZ-nqN"/>
+                            <constraint firstItem="tMz-0Y-VBh" firstAttribute="height" secondItem="IZ8-2D-807" secondAttribute="height" id="xEO-A4-SyG"/>
                             <constraint firstItem="tMz-0Y-VBh" firstAttribute="centerX" secondItem="IZ8-2D-807" secondAttribute="centerX" id="zka-GY-Z5x"/>
                         </constraints>
                     </view>
