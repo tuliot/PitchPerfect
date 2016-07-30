@@ -39,7 +39,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         // Hide the done button, since we dont want it to appear until after recording
         doneButton.hidden = true
     }
-    
+
     /**
         Figures out if this app has permission to record
         

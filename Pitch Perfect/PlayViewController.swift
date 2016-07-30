@@ -33,7 +33,6 @@ class PlayViewController: UIViewController {
         Vader(),
         Echo(),
         Reverb(),
-        
     ]
     
     @IBOutlet weak var collectionView: UICollectionView!
@@ -48,7 +47,6 @@ class PlayViewController: UIViewController {
         super.viewDidLoad()
         
         recordedAudioURL = getFilePath()
-        
         setupAudio()
     }
 
@@ -56,7 +54,6 @@ class PlayViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     
     /**
      Gets the file path to save the audio recording to
@@ -85,6 +82,7 @@ class PlayViewController: UIViewController {
     }
 
     func playSound(modulator: Modulator) {
+
 
         // initialize audio engine components
         audioEngine = AVAudioEngine()
@@ -220,9 +218,6 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let modulator = modulators[indexPath.item]
             cell.nameLabel.text = modulator.name
 
-            cell.layer.borderWidth = 1.5
-            cell.layer.borderColor = UIColor.blackColor().CGColor
-            cell.layer.cornerRadius = cell.bounds.height / 2
             return cell;
         }
         
