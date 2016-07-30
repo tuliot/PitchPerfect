@@ -13,10 +13,7 @@ class ModulatorCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-//        self.backgroundColor = UIColor.pitchAccent()
         self.nameLabel.textColor = UIColor.whiteColor()
-//        self.layer.borderWidth = 1.5
-//        self.layer.borderColor = UIColor.blackColor().CGColor
         self.layer.cornerRadius = self.bounds.height / 2
     }
 
