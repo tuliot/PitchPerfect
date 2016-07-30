@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5955954A1D4D046E006B88CA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595595491D4D046E006B88CA /* Theme.swift */; };
 		59D8C9DE1D444BC800E8547C /* Normal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D8C9DD1D444BC800E8547C /* Normal.swift */; };
 		D7458C341D31A19B004F3CD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C331D31A19B004F3CD5 /* AppDelegate.swift */; };
 		D7458C361D31A19B004F3CD5 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C351D31A19B004F3CD5 /* RecordViewController.swift */; };
@@ -44,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		595595491D4D046E006B88CA /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		59D8C9DD1D444BC800E8547C /* Normal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Normal.swift; path = Modulator/Normal.swift; sourceTree = "<group>"; };
 		D7458C301D31A19B004F3CD5 /* Pitch Perfect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pitch Perfect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7458C331D31A19B004F3CD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				D7458C3A1D31A19B004F3CD5 /* Assets.xcassets */,
 				D7458C3C1D31A19B004F3CD5 /* LaunchScreen.storyboard */,
 				D7458C3F1D31A19B004F3CD5 /* Info.plist */,
+				595595491D4D046E006B88CA /* Theme.swift */,
 			);
 			path = "Pitch Perfect";
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				D7458C711D31D76E004F3CD5 /* Chipmunk.swift in Sources */,
 				D7458C6F1D31D732004F3CD5 /* Fast.swift in Sources */,
 				D7458C6C1D31CF3F004F3CD5 /* ModulatorCollectionViewCell.swift in Sources */,
+				5955954A1D4D046E006B88CA /* Theme.swift in Sources */,
 				D7458C771D31D7D7004F3CD5 /* Reverb.swift in Sources */,
 				D7458C361D31A19B004F3CD5 /* RecordViewController.swift in Sources */,
 				D7458C751D31D7B3004F3CD5 /* Echo.swift in Sources */,
