@@ -196,7 +196,7 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let modulator = modulators[indexPath.item]
 
         // Only play the sound if there isnt a sound playing right now.
-        if stopTimer == nil {
+        if stopTimer == nil  || !stopTimer.valid{
             playSound(modulator)
         }
     }
