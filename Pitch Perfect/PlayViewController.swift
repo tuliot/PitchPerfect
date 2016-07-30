@@ -10,19 +10,20 @@ import UIKit
 import AVFoundation
 
 class PlayViewController: UIViewController {
-    
+
     var audioEngine: AVAudioEngine!
-    
+
+    /// Audio file of the sound that the user recorded
     var audioFile: AVAudioFile!
-    
-    var recordedAudioURL: NSURL!
-    
+
+    /// URL of the audio file
+    var audioFileUrl: NSURL!
+
+    /// This is the node that plays the sound
     var audioPlayerNode: AVAudioPlayerNode!
-    
+
+    /// This is a timer that starts immediately after a sound finishes playing. No other sounds will play while this timer is valid. It invalidates itself after one second
     var stopTimer: NSTimer!
-    
-    /// The audio player
-    var recording: AVAudioPlayer!
 
     //TODO: Find a better solution for handling features
     /// This is a feature flag for enabling/disabling custom modulator creation
@@ -49,44 +50,25 @@ class PlayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        recordedAudioURL = getFilePath()
-        setupAudio()
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    /**
-     Gets the file path to save the audio recording to
-     
-     - Returns: an NSURL with the filepath
-     */
-    func getFilePath() -> NSURL {
-        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)
-        let documentsDirectory = paths[0]
-        let recordingName = "recording.m4a"
-        let pathArray = [documentsDirectory, recordingName]
-        let filePath = NSURL.fileURLWithPathComponents(pathArray)
-        return filePath!
+        if audioFileUrl != nil {
+            do {
+                audioFile = try AVAudioFile(forReading: audioFileUrl)
+            } catch {
+                //TODO: Show alert here
+            }
+            print("Audio has been setup")
+        }
     }
 
     // MARK: Audio Functions
 
-    func setupAudio() {
-        // initialize (recording) audio file
-        do {
-            audioFile = try AVAudioFile(forReading: recordedAudioURL)
-        } catch {
-            //            showAlert(Alerts.AudioFileError, message: String(error))
-        }
-        print("Audio has been setup")
-    }
+    /**
+     Plays the recorded sound with the selected modulator
 
+     - parameter modulator: Modulator to use to alter the sound
+     */
     func playSound(modulator: Modulator) {
-
 
         // initialize audio engine components
         audioEngine = AVAudioEngine()
@@ -131,7 +113,7 @@ class PlayViewController: UIViewController {
         audioPlayerNode.stop()
         audioPlayerNode.scheduleFile(audioFile, atTime: nil) {
 
-            var delayInSeconds: Double = 0
+            var delayInSeconds: Double = 1
 
             if let lastRenderTime = self.audioPlayerNode.lastRenderTime, let playerTime = self.audioPlayerNode.playerTimeForNodeTime(lastRenderTime) {
 
@@ -150,6 +132,7 @@ class PlayViewController: UIViewController {
         do {
             try audioEngine.start()
         } catch {
+            //TODO: Show alert here
 //        showAlert(Alerts.AudioEngineError, message: String(error))
             return
         }

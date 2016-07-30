@@ -24,7 +24,10 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     
     /// The audio recorder
     var audioRecorder: AVAudioRecorder!
-    
+
+    /// URL of the audio file
+    var audioFileUrl: NSURL!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +78,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     /// Starts recording
     func startRecording() {
         
-        let filePathUrl = getFilePath()
+        audioFileUrl = getFilePath()
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
@@ -85,7 +88,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         ]
         
         do {
-            audioRecorder = try AVAudioRecorder(URL: filePathUrl, settings: settings)
+            audioRecorder = try AVAudioRecorder(URL: audioFileUrl, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
             
@@ -132,5 +135,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         let pathArray = [documentsDirectory, recordingName]
         let filePath = NSURL.fileURLWithPathComponents(pathArray)
         return filePath!
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if let vc = segue.destinationViewController as? PlayViewController {
+            vc.audioFileUrl = self.audioFileUrl
+        }
     }
 }
