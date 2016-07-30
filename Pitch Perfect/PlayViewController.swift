@@ -24,6 +24,10 @@ class PlayViewController: UIViewController {
     /// The audio player
     var recording: AVAudioPlayer!
 
+    //TODO: Find a better solution for handling features
+    /// This is a feature flag for enabling/disabling custom modulator creation
+    var canCreateCustomModulators = false
+
     /// These are the sound modulators. They will populate the collectionview.
     var modulators: [Modulator] = [
         Normal(),
@@ -184,7 +188,13 @@ class PlayViewController: UIViewController {
 extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return modulators.count + 1 // The +1 accounts for the 'add modulator' cell
+
+        var count = modulators.count
+
+        // If custom modulators can be created, account for the 'Add Modulators' button
+        count = count + ((canCreateCustomModulators == true) ? 1 : 0)
+
+        return count
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
