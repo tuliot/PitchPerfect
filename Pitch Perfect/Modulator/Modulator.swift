@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol Modulator {
     
@@ -24,4 +25,7 @@ protocol Modulator {
     
     /// Reverb
     var reverb: Bool? { get }
+
+    /// The image to show on the modulator button
+    var image: UIImage? { get }
 }
