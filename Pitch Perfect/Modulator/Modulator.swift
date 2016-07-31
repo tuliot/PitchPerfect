@@ -29,3 +29,9 @@ protocol Modulator {
     /// The image to show on the modulator button
     var image: UIImage? { get }
 }
+
+extension Modulator {
+    var image: UIImage? {
+        return nil
+    }
+}

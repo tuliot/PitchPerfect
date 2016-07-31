@@ -25,4 +25,9 @@ struct Vader: Modulator {
     
     /// Reverb
     var reverb: Bool? = false
+
+    /// Image of a vader
+    var image: UIImage? {
+        return UIImage(named: "vader")
+    }
 }

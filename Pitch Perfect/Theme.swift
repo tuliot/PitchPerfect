@@ -97,5 +97,7 @@ struct ThemeManager {
 
         // Apply modulator button color
         ModulatorCollectionViewCell.appearance().backgroundColor = theme.modulatorButtonColor
+        ModulatorCollectionViewCell.appearance().tintColor = theme.modulatorButtonTextColor
+        UILabel.appearanceWhenContainedInInstancesOfClasses([ModulatorCollectionViewCell.self]).textColor = theme.modulatorButtonTextColor
     }
 }

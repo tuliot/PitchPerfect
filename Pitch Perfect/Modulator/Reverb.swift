@@ -25,4 +25,9 @@ struct Reverb: Modulator {
     
     /// Reverb
     var reverb: Bool? = true
+
+    /// Image 
+    var image: UIImage? {
+        return UIImage(named: "reverb")
+    }
 }

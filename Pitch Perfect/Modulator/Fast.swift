@@ -25,4 +25,9 @@ struct Fast: Modulator {
     
     /// Reverb
     var reverb: Bool? = false
+
+    /// Image
+    var image: UIImage? {
+        return UIImage(named: "fast")
+    }
 }
