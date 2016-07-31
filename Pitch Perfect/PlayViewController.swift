@@ -209,7 +209,7 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
             // This cell is a modulator cell
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kModulatorCellReuseId, forIndexPath: indexPath) as! ModulatorCollectionViewCell
             let modulator = modulators[indexPath.item]
-            cell.nameLabel.text = modulator.name
+            cell.applyModulator(modulator)
 
             return cell;
         }

@@ -25,4 +25,9 @@ struct Slow: Modulator {
     
     /// Reverb
     var reverb: Bool? = false
+
+    /// Image of a snail
+    var image: UIImage? {
+        return UIImage(named: "slow")
+    }
 }

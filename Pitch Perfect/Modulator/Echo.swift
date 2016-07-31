@@ -25,4 +25,9 @@ struct Echo: Modulator {
     
     /// Reverb
     var reverb: Bool? = false
+    
+    /// Image
+    var image: UIImage? {
+        return UIImage(named: "echo")
+    }
 }
