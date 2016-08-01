@@ -29,6 +29,8 @@ class PlayViewController: UIViewController {
     /// This is a feature flag for enabling/disabling custom modulator creation
     var canCreateCustomModulators = false
 
+    var isPlaying: Bool = false
+
     /// These are the sound modulators. They will populate the collectionview.
     var modulators: [Modulator] = [
         Normal(),
@@ -163,6 +165,8 @@ class PlayViewController: UIViewController {
             audioEngine.stop()
             audioEngine.reset()
         }
+
+        isPlaying = false;
     }
 
 
@@ -189,9 +193,11 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let modulator = modulators[indexPath.item]
 
         // Only play the sound if there isnt a sound playing right now.
-        if stopTimer == nil  || !stopTimer.valid{
+        if !isPlaying {
             playSound(modulator)
         }
+
+        isPlaying = true;
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
