@@ -90,6 +90,7 @@ struct ThemeManager {
         // Apply tint color
         let sharedApplication = UIApplication.sharedApplication()
         sharedApplication.delegate?.window??.tintColor = theme.mainColor
+        sharedApplication.delegate?.window??.backgroundColor = theme.backgroundColor
 
         // Apply nav bar color
         UINavigationBar.appearance().barStyle = theme.navBarStyle
@@ -99,5 +100,7 @@ struct ThemeManager {
         ModulatorCollectionViewCell.appearance().backgroundColor = theme.modulatorButtonColor
         ModulatorCollectionViewCell.appearance().tintColor = theme.modulatorButtonTextColor
         UILabel.appearanceWhenContainedInInstancesOfClasses([ModulatorCollectionViewCell.self]).textColor = theme.modulatorButtonTextColor
+
+
     }
 }
