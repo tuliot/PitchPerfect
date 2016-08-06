@@ -17,6 +17,36 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBOutlet weak var doneButton: UIButton!
     
+    @IBOutlet weak var statusLabel: UILabel!
+
+    var isRecording: Bool = false
+
+    /// If there is the user has a recording that he can use
+    var didRecord: Bool = false
+
+    /// Calculated property that returns the image that should be used for the record button
+    var recordButtonImage: UIImage {
+        return ((isRecording == true) ? UIImage(named: "Stop") : UIImage(named: "Microphone"))!.imageWithRenderingMode(.AlwaysTemplate)
+    }
+
+    /// Calculated property that returns the text that should be used for the label
+    var labelText: String {
+
+        if (isRecording) {
+            return "Recording in progress..."
+        } else {
+            if (didRecord) {
+                return "Successfully recorded audio."
+            }
+        }
+
+        return ""
+    }
+
+    var shouldHideDoneButton: Bool {
+        return isRecording == true
+    }
+
     // MARK: Audio properties
     
     /// The audio session
@@ -38,9 +68,8 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         recordButton.hidden = true
         
         getRecordingPermission()
-        
-        // Hide the done button, since we dont want it to appear until after recording
-        doneButton.hidden = true
+
+        drawUI()
     }
 
     /**
@@ -65,7 +94,15 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         
         return false
     }
-    
+
+    func drawUI() {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.recordButton.setImage(self.recordButtonImage, forState: .Normal)
+            self.doneButton.hidden = self.shouldHideDoneButton
+            self.statusLabel.text = self.labelText
+        })
+    }
+
     /// Handles the pressing of the record button
     @IBAction func buttonPress(sender: AnyObject) {
         if audioRecorder == nil {
@@ -91,13 +128,14 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
             audioRecorder = try AVAudioRecorder(URL: audioFileUrl, settings: settings)
             audioRecorder.delegate = self
             audioRecorder.record()
-            
-            recordButton.setTitle("Stop recording", forState: .Normal)
+            isRecording = true
         } catch {
             stopRecording(false)
         }
+
+        drawUI()
     }
-    
+
     /** 
         Stops recording
         
@@ -107,16 +145,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     func stopRecording(success: Bool) {
         audioRecorder.stop()
         audioRecorder = nil
-        
-        if success {
-            recordButton.setTitle("Re-record", forState: .Normal)
-            doneButton.hidden = false
-        } else {
-            recordButton.setTitle("Record", forState: .Normal)
-        }
+        isRecording = false
+        didRecord = true
+        drawUI()
     }
-   
-    
+
     func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {
             stopRecording(false)
