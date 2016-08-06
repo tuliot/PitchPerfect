@@ -35,6 +35,21 @@ class ModulatorCollectionViewCell: UICollectionViewCell {
 
     }
 
+    /**
+     Sets the enabled state of this cell.
+
+     - parameter enabled: true if cell should be enabled, false otherwise
+     */
+    func setEnabled(enabled: Bool) {
+        self.userInteractionEnabled = enabled
+
+        let opacity: Float = ((enabled) ? 0.5 : 1.0)
+
+        UIView.animateWithDuration(0.3) { 
+            self.layer.opacity = opacity
+        }
+    }
+
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var imageView: UIImageView!
