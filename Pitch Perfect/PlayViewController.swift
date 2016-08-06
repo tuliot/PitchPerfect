@@ -63,6 +63,10 @@ class PlayViewController: UIViewController {
         }
     }
 
+    override func viewWillDisappear(animated: Bool) {
+        stopAudio()
+    }
+
     // MARK: Audio Functions
 
     /**
@@ -141,6 +145,8 @@ class PlayViewController: UIViewController {
 
         // play the recording!
         audioPlayerNode.play()
+        isPlaying = true;
+        drawUI()
     }
 
 
@@ -165,10 +171,28 @@ class PlayViewController: UIViewController {
             audioEngine.stop()
             audioEngine.reset()
         }
-
         isPlaying = false;
+        drawUI()
     }
 
+    func drawUI() {
+        // Apply enabled/disabled state to cells
+        setModulatorsEnabled(!isPlaying)
+    }
+
+    /**
+     Enable/Disable modulators
+
+     - parameter enabled: boolean
+     */
+    func setModulatorsEnabled(enabled: Bool) {
+        let cells = self.collectionView.visibleCells()
+
+        cells.forEach { (cell) in
+            let modulatorCell = cell as! ModulatorCollectionViewCell
+            modulatorCell.setEnabled(enabled)
+        }
+    }
 
 }
 
@@ -196,8 +220,6 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         if !isPlaying {
             playSound(modulator)
         }
-
-        isPlaying = true;
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -216,7 +238,7 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kModulatorCellReuseId, forIndexPath: indexPath) as! ModulatorCollectionViewCell
             let modulator = modulators[indexPath.item]
             cell.applyModulator(modulator)
-
+            cell.setEnabled(!isPlaying, animated: false)
             return cell;
         }
         
