@@ -13,6 +13,16 @@ class PlayViewController: UIViewController {
 
     var audioEngine: AVAudioEngine!
 
+    @IBOutlet weak var pauseButton: UIButton!
+
+    @IBOutlet weak var pauseButtonConstraintTopToBottom: NSLayoutConstraint!
+
+    var pauseButtonContraintTopToBottomConstant: CGFloat {
+        return ((isPlaying) ? 70 : 0)
+    }
+
+    var isPaused: Bool = false
+
     /// Audio file of the sound that the user recorded
     var audioFile: AVAudioFile!
 
@@ -31,6 +41,11 @@ class PlayViewController: UIViewController {
 
     var isPlaying: Bool = false
 
+    /// Calculated property that returns the image that should be used for the record button
+    var pauseButtonImage: UIImage {
+        return ((isPaused == true) ? UIImage(named: "Resume") : UIImage(named: "Pause"))!.imageWithRenderingMode(.AlwaysTemplate)
+    }
+
     /// These are the sound modulators. They will populate the collectionview.
     var modulators: [Modulator] = [
         Normal(),
@@ -41,6 +56,10 @@ class PlayViewController: UIViewController {
         Echo(),
         Reverb(),
     ]
+
+    var shouldShowPauseButton: Bool {
+        return isPlaying
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -61,6 +80,9 @@ class PlayViewController: UIViewController {
             }
             print("Audio has been setup")
         }
+
+        pauseButton.imageView?.contentMode = .ScaleToFill
+        pauseButton.setImage(pauseButtonImage, forState: .Normal)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -175,9 +197,27 @@ class PlayViewController: UIViewController {
         drawUI()
     }
 
+
+    @IBAction func pauseButtonClicked(sender: AnyObject) {
+        if (!isPaused) {
+            audioPlayerNode.pause()
+            pauseButton.setImage(UIImage(named: "Resume")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        } else {
+            audioPlayerNode.play()
+            pauseButton.setImage(UIImage(named: "Pause")?.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
+        }
+
+        isPaused = !isPaused
+    }
+
     func drawUI() {
         // Apply enabled/disabled state to cells
         setModulatorsEnabled(!isPlaying)
+        pauseButtonConstraintTopToBottom.constant = pauseButtonContraintTopToBottomConstant
+
+        UIView.animateWithDuration(0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     /**
@@ -193,7 +233,7 @@ class PlayViewController: UIViewController {
             modulatorCell.setEnabled(enabled)
         }
     }
-
+    
 }
 
 extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
