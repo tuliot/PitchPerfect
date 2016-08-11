@@ -35,3 +35,11 @@ extension Modulator {
         return nil
     }
 }
+
+func != (modLeft: Modulator, modRight: Modulator) -> Bool {
+    return modLeft.name != modRight.name
+}
+
+func == (modLeft: Modulator, modRight: Modulator) -> Bool {
+    return modLeft.name == modRight.name
+}

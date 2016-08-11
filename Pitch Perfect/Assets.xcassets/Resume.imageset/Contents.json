@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "resume_80_blue.png",
+      "filename" : "resume_80_blue-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "resume_160_blue.png",
       "scale" : "2x"
     },
     {

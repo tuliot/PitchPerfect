@@ -13,6 +13,16 @@ class PlayViewController: UIViewController {
 
     var audioEngine: AVAudioEngine!
 
+    @IBOutlet weak var pauseButton: UIButton!
+
+    @IBOutlet weak var pauseButtonConstraintTopToBottom: NSLayoutConstraint!
+
+    var pauseButtonContraintTopToBottomConstant: CGFloat {
+        return ((isPlaying || isPaused) ? 70 : 0)
+    }
+
+    var isPaused: Bool = false
+
     /// Audio file of the sound that the user recorded
     var audioFile: AVAudioFile!
 
@@ -25,11 +35,26 @@ class PlayViewController: UIViewController {
     /// This is a timer that starts immediately after a sound finishes playing. No other sounds will play while this timer is valid. It invalidates itself after one second
     var stopTimer: NSTimer!
 
+    /// Modulator to use for the sound to play
+    var currentModulator: Modulator!
+
+    var shouldEnableModulators: Bool {
+        if isPlaying && !isPaused{
+            return false
+        }
+        return true
+    }
+
     //TODO: Find a better solution for handling features
     /// This is a feature flag for enabling/disabling custom modulator creation
     var canCreateCustomModulators = false
 
     var isPlaying: Bool = false
+
+    /// Calculated property that returns the image that should be used for the record button
+    var pauseButtonImage: UIImage {
+        return ((isPaused == true) ? UIImage(named: "Resume") : UIImage(named: "Pause"))!.imageWithRenderingMode(.AlwaysTemplate)
+    }
 
     /// These are the sound modulators. They will populate the collectionview.
     var modulators: [Modulator] = [
@@ -41,6 +66,10 @@ class PlayViewController: UIViewController {
         Echo(),
         Reverb(),
     ]
+
+    var shouldShowPauseButton: Bool {
+        return isPlaying
+    }
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -61,6 +90,11 @@ class PlayViewController: UIViewController {
             }
             print("Audio has been setup")
         }
+
+        pauseButton.imageView?.contentMode = .ScaleToFill
+        pauseButton.setImage(pauseButtonImage, forState: .Normal)
+
+        currentModulator = Normal()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -71,58 +105,65 @@ class PlayViewController: UIViewController {
 
     /**
      Plays the recorded sound with the selected modulator
-
-     - parameter modulator: Modulator to use to alter the sound
      */
-    func playSound(modulator: Modulator) {
+    func playSound() {
 
-        // initialize audio engine components
-        audioEngine = AVAudioEngine()
+        let modulator = currentModulator
 
-        // node for playing audio
-        audioPlayerNode = AVAudioPlayerNode()
-        audioEngine.attachNode(audioPlayerNode)
+        if self.audioEngine == nil || !self.audioEngine.running{
+            // initialize audio engine components
+            audioEngine = AVAudioEngine()
 
-        // node for adjusting rate/pitch
-        let changeRatePitchNode = AVAudioUnitTimePitch()
-        if let pitch = modulator.pitch {
-            changeRatePitchNode.pitch = pitch
-        }
-        if let rate = modulator.rate {
-            changeRatePitchNode.rate = rate
-        }
-        audioEngine.attachNode(changeRatePitchNode)
+            // node for playing audio
+            audioPlayerNode = AVAudioPlayerNode()
+            audioEngine.attachNode(audioPlayerNode)
 
-        // node for echo
-        let echoNode = AVAudioUnitDistortion()
-        echoNode.loadFactoryPreset(.MultiEcho1)
-        audioEngine.attachNode(echoNode)
+            // node for adjusting rate/pitch
+            let changeRatePitchNode = AVAudioUnitTimePitch()
+            if let pitch = modulator.pitch {
+                changeRatePitchNode.pitch = pitch
+            }
+            if let rate = modulator.rate {
+                changeRatePitchNode.rate = rate
+            }
+            audioEngine.attachNode(changeRatePitchNode)
 
-        // node for reverb
-        let reverbNode = AVAudioUnitReverb()
-        reverbNode.loadFactoryPreset(.Cathedral)
-        reverbNode.wetDryMix = 50
-        audioEngine.attachNode(reverbNode)
+            // node for echo
+            let echoNode = AVAudioUnitDistortion()
+            echoNode.loadFactoryPreset(.MultiEcho1)
+            audioEngine.attachNode(echoNode)
 
-        // connect nodes
-        if modulator.echo == true && modulator.reverb == true {
-            connectAudioNodes(audioPlayerNode, changeRatePitchNode, echoNode, reverbNode, audioEngine.outputNode)
-        } else if modulator.echo == true {
-            connectAudioNodes(audioPlayerNode, changeRatePitchNode, echoNode, audioEngine.outputNode)
-        } else if modulator.reverb == true {
-            connectAudioNodes(audioPlayerNode, changeRatePitchNode, reverbNode, audioEngine.outputNode)
-        } else {
-            connectAudioNodes(audioPlayerNode, changeRatePitchNode, audioEngine.outputNode)
+            // node for reverb
+            let reverbNode = AVAudioUnitReverb()
+            reverbNode.loadFactoryPreset(.Cathedral)
+            reverbNode.wetDryMix = 50
+            audioEngine.attachNode(reverbNode)
+
+            // connect nodes
+            if modulator.echo == true && modulator.reverb == true {
+                connectAudioNodes(audioPlayerNode, changeRatePitchNode, echoNode, reverbNode, audioEngine.outputNode)
+            } else if modulator.echo == true {
+                connectAudioNodes(audioPlayerNode, changeRatePitchNode, echoNode, audioEngine.outputNode)
+            } else if modulator.reverb == true {
+                connectAudioNodes(audioPlayerNode, changeRatePitchNode, reverbNode, audioEngine.outputNode)
+            } else {
+                connectAudioNodes(audioPlayerNode, changeRatePitchNode, audioEngine.outputNode)
+            }
+
+            audioPlayerNode.stop()
         }
 
         // schedule to play and start the engine!
-        audioPlayerNode.stop()
         audioPlayerNode.scheduleFile(audioFile, atTime: nil) {
+
+            guard (!self.isPaused) else {
+                return
+            }
 
             var delayInSeconds: Double = 1
 
             if let lastRenderTime = self.audioPlayerNode.lastRenderTime, let playerTime = self.audioPlayerNode.playerTimeForNodeTime(lastRenderTime) {
-
+ 
                 if let rate = modulator.rate {
                     delayInSeconds = Double(self.audioFile.length - playerTime.sampleTime) / Double(self.audioFile.processingFormat.sampleRate) / Double(rate)
                 } else {
@@ -135,17 +176,22 @@ class PlayViewController: UIViewController {
             NSRunLoop.mainRunLoop().addTimer(self.stopTimer!, forMode: NSDefaultRunLoopMode)
         }
 
-        do {
-            try audioEngine.start()
-        } catch {
-            //TODO: Show alert here
-//        showAlert(Alerts.AudioEngineError, message: String(error))
-            return
+        if !audioEngine.running {
+            do {
+                try audioEngine.start()
+            } catch {
+                //TODO: Show alert here
+                //        showAlert(Alerts.AudioEngineError, message: String(error))
+                return
+            }
         }
+
+
 
         // play the recording!
         audioPlayerNode.play()
-        isPlaying = true;
+        isPlaying = true
+        isPaused = false
         drawUI()
     }
 
@@ -175,9 +221,27 @@ class PlayViewController: UIViewController {
         drawUI()
     }
 
+
+    @IBAction func pauseButtonClicked(sender: AnyObject) {
+        if (!isPaused) {
+            isPaused = true
+            audioPlayerNode.pause()
+        } else {
+            // The order of the following calls is important, do not alter them
+            playSound()
+            isPaused = false
+        }
+        drawUI()
+    }
+
     func drawUI() {
         // Apply enabled/disabled state to cells
-        setModulatorsEnabled(!isPlaying)
+        setModulatorsEnabled(shouldEnableModulators)
+        pauseButtonConstraintTopToBottom.constant = pauseButtonContraintTopToBottomConstant
+        pauseButton.setImage(pauseButtonImage, forState: .Normal)
+        UIView.animateWithDuration(0.2) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     /**
@@ -193,7 +257,7 @@ class PlayViewController: UIViewController {
             modulatorCell.setEnabled(enabled)
         }
     }
-
+    
 }
 
 extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -217,8 +281,14 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let modulator = modulators[indexPath.item]
 
         // Only play the sound if there isnt a sound playing right now.
-        if !isPlaying {
-            playSound(modulator)
+        if !isPlaying || isPaused {
+
+            if (modulator != currentModulator) {
+                stopAudio()
+            }
+
+            currentModulator = modulator
+            playSound()
         }
     }
     
@@ -238,7 +308,7 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(kModulatorCellReuseId, forIndexPath: indexPath) as! ModulatorCollectionViewCell
             let modulator = modulators[indexPath.item]
             cell.applyModulator(modulator)
-            cell.setEnabled(!isPlaying, animated: false)
+            cell.setEnabled(shouldEnableModulators, animated: false)
             return cell;
         }
         

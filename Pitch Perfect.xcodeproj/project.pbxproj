@@ -241,6 +241,7 @@
 				TargetAttributes = {
 					D7458C2F1D31A19B004F3CD5 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = THY342W7AK;
 					};
 					D7458C431D31A19B004F3CD5 = {
 						CreatedOnToolsVersion = 7.3.1;
