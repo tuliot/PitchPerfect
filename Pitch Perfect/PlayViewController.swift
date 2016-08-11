@@ -95,7 +95,7 @@ class PlayViewController: UIViewController {
         super.viewDidLoad()
 
         // If we don't have a file url, then we don't have audio to play
-        guard ( audioFile != nil ) else {
+        guard ( audioFileUrl != nil ) else {
 
             //TODO: Show alert
             navigationController?.popViewControllerAnimated(true)

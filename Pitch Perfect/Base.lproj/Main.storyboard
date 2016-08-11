@@ -20,22 +20,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kxq-f3-nnM">
-                                <rect key="frame" x="200" y="168" width="200" height="200"/>
+                                <rect key="frame" x="200" y="218" width="200" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JWM-w9-YSj">
-                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="100"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="200" id="QeA-gY-J6U"/>
                                             <constraint firstAttribute="height" constant="200" id="yhB-Em-wpW"/>
                                         </constraints>
                                         <state key="normal" image="Microphone"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="yhB-Em-wpW"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <action selector="buttonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XwJ-AU-eTL"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D7M-1m-HDx" userLabel="Status Label">
-                                        <rect key="frame" x="0.0" y="200" width="200" height="0.0"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <rect key="frame" x="0.0" y="100" width="200" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>

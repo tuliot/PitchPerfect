@@ -102,6 +102,5 @@ struct ThemeManager {
         ModulatorCollectionViewCell.appearance().tintColor = theme.modulatorButtonTextColor
         UILabel.appearanceWhenContainedInInstancesOfClasses([ModulatorCollectionViewCell.self]).textColor = theme.modulatorButtonTextColor
 
-
     }
 }
