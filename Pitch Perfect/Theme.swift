@@ -21,7 +21,7 @@ enum Theme {
         }
     }
 
-    /// Color of the Navigation Bar
+    /// Style of the Navigation Bar
     var navBarStyle: UIBarStyle {
         switch self {
         case .Default:
@@ -29,6 +29,7 @@ enum Theme {
         }
     }
 
+    /// Color of the nav bar
     var navBarColor: UIColor {
         switch self {
         case .Default:
@@ -100,7 +101,6 @@ struct ThemeManager {
         ModulatorCollectionViewCell.appearance().backgroundColor = theme.modulatorButtonColor
         ModulatorCollectionViewCell.appearance().tintColor = theme.modulatorButtonTextColor
         UILabel.appearanceWhenContainedInInstancesOfClasses([ModulatorCollectionViewCell.self]).textColor = theme.modulatorButtonTextColor
-
 
     }
 }

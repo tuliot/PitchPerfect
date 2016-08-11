@@ -9,16 +9,20 @@
 import UIKit
 import AVFoundation
 
-class RecordViewController: UIViewController, AVAudioRecorderDelegate {
+class RecordViewController: UIViewController {
     
-    // MARK: properties
+    // MARK: Properties
+
     /// Button that starts/stops the voice recording
     @IBOutlet weak var recordButton: UIButton!
-    
+
+    /// Button that takes you to the play screen
     @IBOutlet weak var doneButton: UIButton!
-    
+
+    /// Label indicating the current state of recording
     @IBOutlet weak var statusLabel: UILabel!
 
+    /// Returns true if recording is happening right now
     var isRecording: Bool = false
 
     /// If there is the user has a recording that he can use
@@ -31,7 +35,6 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
 
     /// Calculated property that returns the text that should be used for the label
     var labelText: String {
-
         if (isRecording) {
             return "Recording in progress..."
         } else {
@@ -43,12 +46,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         return ""
     }
 
+    /// Calculated property that returns wether or not the done button should be hidden
     var shouldHideDoneButton: Bool {
         return isRecording == true
     }
 
-    // MARK: Audio properties
-    
     /// The audio session
     var recordSession: AVAudioSession!
     
@@ -58,6 +60,10 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     /// URL of the audio file
     var audioFileUrl: NSURL!
 
+
+    // MARK: Functions
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,7 +72,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         
         // Hide the record button, until we have permission
         recordButton.hidden = true
-        
+
         getRecordingPermission()
 
         drawUI()
@@ -95,6 +101,9 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         return false
     }
 
+    /**
+     Renders the UI elements on the screen based on the state of recording
+     */
     func drawUI() {
         dispatch_async(dispatch_get_main_queue(), {
             self.recordButton.setImage(self.recordButtonImage, forState: .Normal)
@@ -103,7 +112,12 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         })
     }
 
-    /// Handles the pressing of the record button
+
+    /**
+     Handles the pressing of the record button
+
+     - parameter sender: sender
+     */
     @IBAction func buttonPress(sender: AnyObject) {
         if audioRecorder == nil {
             startRecording()
@@ -112,9 +126,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     
-    /// Starts recording
+
+    /**
+     Starts recording and calls drawUI()
+     */
     func startRecording() {
-        
         audioFileUrl = getFilePath()
         
         let settings = [
@@ -137,7 +153,7 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     }
 
     /** 
-        Stops recording
+        Stops recording and calls drawUI()
         
         - Parameters:
             - success: Wether or not recording was successful
@@ -150,11 +166,6 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
         drawUI()
     }
 
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        if !flag {
-            stopRecording(false)
-        }
-    }
     
     /**
         Gets the file path to save the audio recording to
@@ -171,8 +182,24 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // If we're going to the Play VC, then we want to send the URL of the file so that it can use it
         if let vc = segue.destinationViewController as? PlayViewController {
             vc.audioFileUrl = self.audioFileUrl
+        }
+    }
+}
+
+extension RecordViewController: AVAudioRecorderDelegate {
+
+    /**
+     Called when the audio recorder finishes recording
+
+     - parameter recorder: the audio recorder
+     - parameter flag:     should be true if finished successfully, false otherwise
+     */
+    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
+        if !flag {
+            stopRecording(false)
         }
     }
 }
