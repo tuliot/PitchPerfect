@@ -11,16 +11,22 @@ import AVFoundation
 
 class PlayViewController: UIViewController {
 
+    // MARK: Properties
+
     var audioEngine: AVAudioEngine!
 
+    /// Button that pauses/resumes playback
     @IBOutlet weak var pauseButton: UIButton!
 
+    /// Constraint that denotes spacing between the top of the pause button and the bottom of the screen
     @IBOutlet weak var pauseButtonConstraintTopToBottom: NSLayoutConstraint!
 
+    /// Calculated property that returns the constant to use for the pauseButtonConstraintTopToBottom
     var pauseButtonContraintTopToBottomConstant: CGFloat {
         return ((isPlaying || isPaused) ? 70 : 0)
     }
 
+    /// Bool that dictates wether or not playback is paused. Note: this will be false if the audio is stopped. Stopped != Paused
     var isPaused: Bool = false
 
     /// Audio file of the sound that the user recorded
@@ -38,6 +44,7 @@ class PlayViewController: UIViewController {
     /// Modulator to use for the sound to play
     var currentModulator: Modulator!
 
+    /// Calculated property that returns wether or not modulators should be enabled
     var shouldEnableModulators: Bool {
         if isPlaying && !isPaused{
             return false
@@ -45,7 +52,7 @@ class PlayViewController: UIViewController {
         return true
     }
 
-    //TODO: Find a better solution for handling features
+    // TODO: Find a better solution for handling features
     /// This is a feature flag for enabling/disabling custom modulator creation
     var canCreateCustomModulators = false
 
@@ -70,7 +77,8 @@ class PlayViewController: UIViewController {
     var shouldShowPauseButton: Bool {
         return isPlaying
     }
-    
+
+    /// Collectionview that holds the modulators
     @IBOutlet weak var collectionView: UICollectionView!
 
     /// The reuse id of the addmodulator cell
@@ -78,22 +86,33 @@ class PlayViewController: UIViewController {
 
     /// The reuse id of the modulator cell
     var kModulatorCellReuseId = "modulatorCell"
-    
+
+
+    // MARK: Functions
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if audioFileUrl != nil {
-            do {
-                audioFile = try AVAudioFile(forReading: audioFileUrl)
-            } catch {
-                //TODO: Show alert here
-            }
-            print("Audio has been setup")
+        // If we don't have a file url, then we don't have audio to play
+        guard ( audioFile != nil ) else {
+
+            //TODO: Show alert
+            navigationController?.popViewControllerAnimated(true)
+            return
         }
+
+        do {
+            audioFile = try AVAudioFile(forReading: audioFileUrl)
+        } catch {
+            //TODO: Show alert here
+        }
+        print("Audio has been setup")
 
         pauseButton.imageView?.contentMode = .ScaleToFill
         pauseButton.setImage(pauseButtonImage, forState: .Normal)
 
+        // Set the current modulator to some default value
         currentModulator = Normal()
     }
 
@@ -107,9 +126,9 @@ class PlayViewController: UIViewController {
      Plays the recorded sound with the selected modulator
      */
     func playSound() {
-
         let modulator = currentModulator
 
+        // The following if... takes care of the case where the user had paused the audio, and now wants to continue playing it with the same modulator
         if self.audioEngine == nil || !self.audioEngine.running{
             // initialize audio engine components
             audioEngine = AVAudioEngine()
@@ -153,9 +172,10 @@ class PlayViewController: UIViewController {
             audioPlayerNode.stop()
         }
 
-        // schedule to play and start the engine!
+        // Schedule to play and start the engine!
         audioPlayerNode.scheduleFile(audioFile, atTime: nil) {
 
+            // If the sound is paused, then we don't want to schedule a timer. This is because then the timer will fire and call stopAudio() and kill the sound
             guard (!self.isPaused) else {
                 return
             }
@@ -171,7 +191,7 @@ class PlayViewController: UIViewController {
                 }
             }
 
-            // schedule a stop timer for when audio finishes playing
+            // Schedule a stop timer for when audio finishes playing
             self.stopTimer = NSTimer(timeInterval: delayInSeconds, target: self, selector: #selector(PlayViewController.stopAudio), userInfo: nil, repeats: false)
             NSRunLoop.mainRunLoop().addTimer(self.stopTimer!, forMode: NSDefaultRunLoopMode)
         }
@@ -181,14 +201,12 @@ class PlayViewController: UIViewController {
                 try audioEngine.start()
             } catch {
                 //TODO: Show alert here
-                //        showAlert(Alerts.AudioEngineError, message: String(error))
+                //showAlert(Alerts.AudioEngineError, message: String(error))
                 return
             }
         }
 
-
-
-        // play the recording!
+        // Play the recording!
         audioPlayerNode.play()
         isPlaying = true
         isPaused = false
@@ -196,13 +214,20 @@ class PlayViewController: UIViewController {
     }
 
 
-    // MARK: Connect List of Audio Nodes
+    /**
+     Connects a list of audio nodes to the audio engine
+
+     - parameter nodes: AVAudioNode nodes
+     */
     func connectAudioNodes(nodes: AVAudioNode...) {
         for x in 0..<nodes.count-1 {
             audioEngine.connect(nodes[x], to: nodes[x+1], format: audioFile.processingFormat)
         }
     }
 
+    /**
+     Stops the current sound and kills the audio engine
+     */
     func stopAudio() {
 
         if let stopTimer = stopTimer {
@@ -222,6 +247,11 @@ class PlayViewController: UIViewController {
     }
 
 
+    /**
+     Handler for when the Pause/Resume button is clicked
+
+     - parameter sender: sender
+     */
     @IBAction func pauseButtonClicked(sender: AnyObject) {
         if (!isPaused) {
             isPaused = true
@@ -274,6 +304,11 @@ extension PlayViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
+        /* 
+            Remember that 4 modulators will return a count of 4, but since we start counting from item zero, indexPath.item will never be equal to modulators.count, but rather (modulators.count-1). When canCreateCustomModulators is true, it is not a modulator, but the numberOfItemsInSection will get incremented to account for the addModulator button. Thus increasing the max indexPath.item to (modulators.count-1)+1
+         */
+
+        // This won't run unless the canCreateCustomModulators is set, in which case the Add Modulator button will always be the last one, thus getting caught by this. 
         if (indexPath.item == modulators.count) {
             return
         }
