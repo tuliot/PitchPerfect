@@ -97,7 +97,7 @@ class PlayViewController: UIViewController {
         // If we don't have a file url, then we don't have audio to play
         guard ( audioFileUrl != nil ) else {
 
-            //TODO: Show alert
+            showAlert(self, title: "Whoops", message: Alerts.AudioFileError)
             navigationController?.popViewControllerAnimated(true)
             return
         }
@@ -105,7 +105,7 @@ class PlayViewController: UIViewController {
         do {
             audioFile = try AVAudioFile(forReading: audioFileUrl)
         } catch {
-            //TODO: Show alert here
+            showAlert(self, title: "Whoops", message: Alerts.AudioFileError)
         }
         print("Audio has been setup")
 
@@ -200,8 +200,7 @@ class PlayViewController: UIViewController {
             do {
                 try audioEngine.start()
             } catch {
-                //TODO: Show alert here
-                //showAlert(Alerts.AudioEngineError, message: String(error))
+                showAlert(self, title: Alerts.AudioEngineError, message: String(error))
                 return
             }
         }
@@ -263,6 +262,8 @@ class PlayViewController: UIViewController {
         }
         drawUI()
     }
+
+
 
     func drawUI() {
         // Apply enabled/disabled state to cells

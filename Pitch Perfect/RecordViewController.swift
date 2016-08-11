@@ -91,6 +91,8 @@ class RecordViewController: UIViewController {
                 dispatch_async(dispatch_get_main_queue()) {
                     if allowed {
                         self.recordButton.hidden = false
+                    } else {
+                        showAlert(self, title: Alerts.RecordingDisabledTitle, message: Alerts.RecordingDisabledMessage)
                     }
                 }
             }
@@ -159,6 +161,16 @@ class RecordViewController: UIViewController {
             - success: Wether or not recording was successful
     */
     func stopRecording(success: Bool) {
+
+        guard success else {
+            showAlert(self, title: Alerts.RecordingFailedTitle, message: Alerts.RecordingFailedMessage)
+            audioRecorder.stop()
+            audioRecorder = nil
+            isRecording = false
+            didRecord = false
+            drawUI()
+            return
+        }
         audioRecorder.stop()
         audioRecorder = nil
         isRecording = false

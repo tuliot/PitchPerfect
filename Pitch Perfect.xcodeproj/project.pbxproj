@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5955954A1D4D046E006B88CA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 595595491D4D046E006B88CA /* Theme.swift */; };
+		5958A74C1D5C892F0070BDDB /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5958A74B1D5C892F0070BDDB /* Alerts.swift */; };
 		59D8C9DE1D444BC800E8547C /* Normal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D8C9DD1D444BC800E8547C /* Normal.swift */; };
 		D7458C341D31A19B004F3CD5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C331D31A19B004F3CD5 /* AppDelegate.swift */; };
 		D7458C361D31A19B004F3CD5 /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7458C351D31A19B004F3CD5 /* RecordViewController.swift */; };
@@ -46,6 +47,7 @@
 
 /* Begin PBXFileReference section */
 		595595491D4D046E006B88CA /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		5958A74B1D5C892F0070BDDB /* Alerts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		59D8C9DD1D444BC800E8547C /* Normal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Normal.swift; path = Modulator/Normal.swift; sourceTree = "<group>"; };
 		D7458C301D31A19B004F3CD5 /* Pitch Perfect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Pitch Perfect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7458C331D31A19B004F3CD5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				D7458C3C1D31A19B004F3CD5 /* LaunchScreen.storyboard */,
 				D7458C3F1D31A19B004F3CD5 /* Info.plist */,
 				595595491D4D046E006B88CA /* Theme.swift */,
+				5958A74B1D5C892F0070BDDB /* Alerts.swift */,
 			);
 			path = "Pitch Perfect";
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				D7458C731D31D79B004F3CD5 /* Vader.swift in Sources */,
 				D7458C651D31BDE4004F3CD5 /* Slow.swift in Sources */,
 				D7458C341D31A19B004F3CD5 /* AppDelegate.swift in Sources */,
+				5958A74C1D5C892F0070BDDB /* Alerts.swift in Sources */,
 				D7458C671D31BDF9004F3CD5 /* Modulator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
