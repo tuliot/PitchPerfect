@@ -22,7 +22,7 @@ struct Alerts {
     static let AudioEngineError = "Audio Engine Error"
 }
 
-func showAlert(target: UIViewController, title: String, message: String) {
+func showAlert(target: UIViewController, title: String, message: String, completion: (() -> Void)?) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
     alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .Default, handler: nil))
     target.presentViewController(alert, animated: true, completion: nil)
