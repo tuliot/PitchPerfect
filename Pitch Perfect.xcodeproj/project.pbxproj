@@ -134,11 +134,11 @@
 				D7458C351D31A19B004F3CD5 /* RecordViewController.swift */,
 				D7458C611D31B5AB004F3CD5 /* PlayViewController.swift */,
 				D7458C371D31A19B004F3CD5 /* Main.storyboard */,
-				D7458C3A1D31A19B004F3CD5 /* Assets.xcassets */,
 				D7458C3C1D31A19B004F3CD5 /* LaunchScreen.storyboard */,
 				D7458C3F1D31A19B004F3CD5 /* Info.plist */,
 				595595491D4D046E006B88CA /* Theme.swift */,
 				5958A74B1D5C892F0070BDDB /* Alerts.swift */,
+				D7458C3A1D31A19B004F3CD5 /* Assets.xcassets */,
 			);
 			path = "Pitch Perfect";
 			sourceTree = "<group>";

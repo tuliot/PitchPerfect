@@ -97,15 +97,20 @@ class PlayViewController: UIViewController {
         // If we don't have a file url, then we don't have audio to play
         guard ( audioFileUrl != nil ) else {
 
-            showAlert(self, title: "Whoops", message: Alerts.AudioFileError)
-            navigationController?.popViewControllerAnimated(true)
+            showAlert(self, title: "Whoops", message: Alerts.AudioFileError, completion: { _ in
+                self.navigationController?.popViewControllerAnimated(true)
+            })
+
             return
         }
 
         do {
             audioFile = try AVAudioFile(forReading: audioFileUrl)
         } catch {
-            showAlert(self, title: "Whoops", message: Alerts.AudioFileError)
+            showAlert(self, title: "Whoops", message: Alerts.AudioFileError, completion: { _ in
+                self.navigationController?.popViewControllerAnimated(true)
+            })
+            return
         }
         print("Audio has been setup")
 
@@ -114,6 +119,7 @@ class PlayViewController: UIViewController {
 
         // Set the current modulator to some default value
         currentModulator = Normal()
+
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -200,7 +206,9 @@ class PlayViewController: UIViewController {
             do {
                 try audioEngine.start()
             } catch {
-                showAlert(self, title: Alerts.AudioEngineError, message: String(error))
+                showAlert(self, title: Alerts.AudioEngineError, message: String(error), completion: { _ in
+                    self.navigationController?.popViewControllerAnimated(true)
+                })
                 return
             }
         }

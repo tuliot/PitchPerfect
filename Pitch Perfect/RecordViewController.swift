@@ -48,7 +48,7 @@ class RecordViewController: UIViewController {
 
     /// Calculated property that returns wether or not the done button should be hidden
     var shouldHideDoneButton: Bool {
-        return isRecording == true
+        return isRecording == true || !didRecord
     }
 
     /// The audio session
@@ -92,7 +92,7 @@ class RecordViewController: UIViewController {
                     if allowed {
                         self.recordButton.hidden = false
                     } else {
-                        showAlert(self, title: Alerts.RecordingDisabledTitle, message: Alerts.RecordingDisabledMessage)
+                        showAlert(self, title: Alerts.RecordingDisabledTitle, message: Alerts.RecordingDisabledMessage, completion: nil)
                     }
                 }
             }
@@ -118,7 +118,7 @@ class RecordViewController: UIViewController {
     /**
      Handles the pressing of the record button
 
-     - parameter sender: sender
+     - parameter sender: 4sender
      */
     @IBAction func buttonPress(sender: AnyObject) {
         if audioRecorder == nil {
@@ -163,7 +163,7 @@ class RecordViewController: UIViewController {
     func stopRecording(success: Bool) {
 
         guard success else {
-            showAlert(self, title: Alerts.RecordingFailedTitle, message: Alerts.RecordingFailedMessage)
+            showAlert(self, title: Alerts.RecordingFailedTitle, message: Alerts.RecordingFailedMessage, completion: nil)
             audioRecorder.stop()
             audioRecorder = nil
             isRecording = false

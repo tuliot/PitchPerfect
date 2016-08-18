@@ -62,13 +62,12 @@
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "PitchPerfect_152.png",
+      "filename" : "PitchPerfect_152-1.png",
       "scale" : "2x"
     },
     {
-      "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "PitchPerfect_152-1.png",
+      "size" : "83.5x83.5",
       "scale" : "2x"
     }
   ],

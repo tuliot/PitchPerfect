@@ -9,15 +9,25 @@
 import UIKit
 import Foundation
 
+let kNSUserDefaultsThemeKey = "theme"
+
 /// Theme of the application. Colors are stored here
-enum Theme {
-    case Default
+enum Theme: String {
+    case Default = "Default"
+    case Green = "Green"
+
+    /// Returns an array of available themes
+    static func availableThemes() -> [Theme] {
+        return [.Default, .Green]
+    }
 
     /// "Pop" color of the application
     var mainColor: UIColor {
         switch self {
         case .Default:
             return UIColor(red:0.8977, green:0.556, blue:0.2651, alpha:1.0)
+        case .Green:
+            return UIColor(red:0.3381, green:0.8651, blue:0.4965, alpha:1.0)
         }
     }
 
@@ -25,6 +35,8 @@ enum Theme {
     var navBarStyle: UIBarStyle {
         switch self {
         case .Default:
+            return .Black
+        case .Green:
             return .Black
         }
     }
@@ -34,6 +46,8 @@ enum Theme {
         switch self {
         case .Default:
             return UIColor(red:0.1511, green:0.1739, blue:0.2079, alpha:1)
+        case .Green:
+            return UIColor(red:0.1349, green:0.2714, blue:0.179, alpha:1.0)
         }
     }
 
@@ -42,6 +56,8 @@ enum Theme {
         switch self {
         case .Default:
             return UIColor(red:0.1511, green:0.1739, blue:0.2079, alpha:0.1)
+        case .Green:
+            return UIColor(red:0.1549, green:0.3699, blue:0.2373, alpha:0.1)
         }
     }
 
@@ -50,6 +66,8 @@ enum Theme {
         switch self {
         case .Default:
             return UIColor(red:0.8977, green:0.556, blue:0.2651, alpha:1.0)
+        case .Green:
+            return UIColor(red:0.3381, green:0.8651, blue:0.4965, alpha:1.0)
         }
     }
 
@@ -57,6 +75,8 @@ enum Theme {
     var modulatorButtonTextColor: UIColor {
         switch self {
         case .Default:
+            return UIColor.whiteColor()
+        case .Green:
             return UIColor.whiteColor()
         }
     }
@@ -67,7 +87,6 @@ enum Theme {
  *  Manages interactions with the Theme of the application.
  */
 struct ThemeManager {
-    let selectedTheme = "Default"
 
     /**
      Returns the current theme. As of now, it only returns the default theme
@@ -76,6 +95,18 @@ struct ThemeManager {
      */
     static func currentTheme() -> Theme {
         //TODO: Make this use the stored theme in NSUserDefaults, also find a way to store to NSUserDefaults :)
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+
+        if let savedThemeString = defaults.objectForKey(kNSUserDefaultsThemeKey) {
+
+            if let savedTheme = Theme.init(rawValue: savedThemeString as! String) {
+                return savedTheme
+            }
+        }
+
+        // We couldn't get the theme from User Defaults, so set the theme to Default, and save
+        saveTheme(.Default)
         return .Default
     }
 
@@ -101,6 +132,18 @@ struct ThemeManager {
         ModulatorCollectionViewCell.appearance().backgroundColor = theme.modulatorButtonColor
         ModulatorCollectionViewCell.appearance().tintColor = theme.modulatorButtonTextColor
         UILabel.appearanceWhenContainedInInstancesOfClasses([ModulatorCollectionViewCell.self]).textColor = theme.modulatorButtonTextColor
+
+        saveTheme(theme)
+    }
+
+    /**
+     Saves theme to NSUserDefaults
+
+     - parameter theme: Theme
+     */
+    static func saveTheme(theme: Theme) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(theme.rawValue, forKey: kNSUserDefaultsThemeKey)
 
     }
 }
